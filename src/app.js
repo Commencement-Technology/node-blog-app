@@ -4,6 +4,8 @@ const app = express();
 //Middlewares
 app.use(express.json());
 
-app.use("/", require("./routes/auth.route"));
+//ROUTES
+app.use("/", require("./routes/authRoute"));
+app.use("/", require("./routes/userRoute"));
 
 module.exports = app;
