@@ -4,8 +4,6 @@ const app = express();
 //Middlewares
 app.use(express.json());
 
-app.use("/", async (req, res) => {
-  res.send("Hello Blog App!");
-});
+app.use("/", require("./routes/auth.route"));
 
 module.exports = app;
