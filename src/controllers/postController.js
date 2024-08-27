@@ -34,7 +34,50 @@ const createPost = async (req, res) => {
   }
 };
 
-const getPosts = async (req, res) => {};
+const getPost = async (req, res) => {
+  const { postId } = req.params;
+
+  try {
+    const post = await Post.findById(postId);
+
+    if (!post) {
+      res.status(404).json({
+        success: false,
+        message: "Post not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      post,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "An error occured while gettin post by id",
+    });
+  }
+};
+
+const getAllPosts = async (req, res) => {
+  try {
+    const posts = await Post.find();
+
+    const postCount = posts.length;
+
+    res.status(200).json({
+      success: true,
+      postCount,
+      posts,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "An error occured while getting all posts",
+      error,
+    });
+  }
+};
 
 const deletePost = async (req, res) => {
   if (req.user.id !== req.params.userId) {
@@ -119,7 +162,8 @@ const updatePost = async (req, res) => {
 
 module.exports = {
   createPost,
-  getPosts,
+  getPost,
+  getAllPosts,
   deletePost,
   updatePost,
 };
