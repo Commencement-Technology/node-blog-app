@@ -10,5 +10,6 @@ const {
 
 router.post("/posts", verifyAuth, createPost);
 router.delete("/posts/:postId/:userId", verifyAuth, deletePost);
+router.put("/posts/:postId", verifyAuth, updatePost);
 
 module.exports = router;

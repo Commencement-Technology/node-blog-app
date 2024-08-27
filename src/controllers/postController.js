@@ -68,7 +68,54 @@ const deletePost = async (req, res) => {
   }
 };
 
-const updatePost = async (req, res) => {};
+const updatePost = async (req, res) => {
+  const { postId } = req.params;
+  const userId = req.user.id;
+
+  const post = await Post.findById(postId);
+
+  if (!post) {
+    res.status(404).json({
+      success: false,
+      message: "Post not found",
+    });
+  }
+
+  if (post.userId !== userId) {
+    res.status(403).json({
+      success: false,
+      message: "You are not allowed to update this post",
+    });
+  }
+
+  const updatedPost = await Post.findByIdAndUpdate(
+    postId,
+    {
+      $set: {
+        title: req.body.title,
+        content: req.body.content,
+        category: req.body.category,
+        image: req.body.image,
+      },
+    },
+    { new: true }
+  );
+
+  res.status(200).json({
+    success: true,
+    message: "Post updated successfully!",
+    updatedPost,
+  });
+
+  try {
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "An error occured while updating post",
+      error,
+    });
+  }
+};
 
 module.exports = {
   createPost,
