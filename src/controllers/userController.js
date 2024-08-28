@@ -46,7 +46,7 @@ const updateUser = async (req, res) => {
     console.log(error);
     res.status(500).json({
       success: false,
-      message: "An error occured in updateUser controller",
+      message: "An error occured while updating a userr",
       error,
     });
   }

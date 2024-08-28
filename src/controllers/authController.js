@@ -40,7 +40,7 @@ const login = async (req, res) => {
   } catch (error) {
     res.json({
       success: false,
-      message: "An error occured in login controller",
+      message: "An error occured while logging in a user",
       error,
     });
   }
@@ -81,7 +81,7 @@ const register = async (req, res) => {
     console.log(err);
     res.status(500).json({
       success: false,
-      message: "An error occured in register controller",
+      message: "An error occured while registering a user",
       err,
     });
   }

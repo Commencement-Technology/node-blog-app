@@ -29,7 +29,7 @@ const createPost = async (req, res) => {
     console.error(error);
     res.status(500).json({
       success: false,
-      message: "An error occured in createPost controller",
+      message: "An error occured while creating a post",
       error,
     });
   }
@@ -69,7 +69,7 @@ const getPosts = async (req, res) => {
     console.error(error);
     res.status(500).json({
       success: false,
-      message: "An error occured while getting post by id",
+      message: "An error occured while getting posts",
     });
   }
 };
@@ -101,7 +101,7 @@ const deletePost = async (req, res) => {
     console.error(error);
     res.status(500).json({
       success: false,
-      message: "An error occurred in deletePost controller",
+      message: "An error occurred while getting a post",
       error,
     });
   }
