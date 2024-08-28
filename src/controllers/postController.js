@@ -26,6 +26,7 @@ const createPost = async (req, res) => {
       message: "Post created successfully!",
     });
   } catch (error) {
+    console.error(error);
     res.status(500).json({
       success: false,
       message: "An error occured in createPost controller",
@@ -34,47 +35,41 @@ const createPost = async (req, res) => {
   }
 };
 
-const getPost = async (req, res) => {
-  const { postId } = req.params;
-
+const getPosts = async (req, res) => {
   try {
-    const post = await Post.findById(postId);
+    const startIndex = parseInt(req.query.startIndex) || 0;
+    const limit = parseInt(req.query.limit) || 9;
+    const sortDirection = req.query.order === "asc" ? 1 : -1;
+    const posts = await Post.find({
+      ...(req.query.userId && { userId: req.query.userId }),
+      ...(req.query.category && { category: req.query.category }),
+      ...(req.query.slug && { slug: req.query.slug }),
+      ...(req.query.postId && { _id: req.query.postId }),
+      ...(req.query.searchTerm && {
+        $or: [
+          { title: { $regex: req.query.searchTerm, $options: "i" } },
+          { content: { $regex: req.query.searchTerm, $options: "i" } },
+        ],
+      }),
+    })
+      .sort({ updatedAt: sortDirection })
+      .skip(startIndex)
+      .limit(limit);
 
-    if (!post) {
-      res.status(404).json({
-        success: false,
-        message: "Post not found",
-      });
-    }
+    const totalPosts = await Post.countDocuments();
+    const totalPages = Math.ceil(totalPosts / limit);
 
     res.status(200).json({
       success: true,
-      post,
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "An error occured while gettin post by id",
-    });
-  }
-};
-
-const getAllPosts = async (req, res) => {
-  try {
-    const posts = await Post.find();
-
-    const postCount = posts.length;
-
-    res.status(200).json({
-      success: true,
-      postCount,
+      totalPosts,
+      totalPages,
       posts,
     });
   } catch (error) {
+    console.error(error);
     res.status(500).json({
       success: false,
-      message: "An error occured while getting all posts",
-      error,
+      message: "An error occured while getting post by id",
     });
   }
 };
@@ -103,6 +98,7 @@ const deletePost = async (req, res) => {
       message: "The post has been deleted",
     });
   } catch (error) {
+    console.error(error);
     res.status(500).json({
       success: false,
       message: "An error occurred in deletePost controller",
@@ -152,6 +148,7 @@ const updatePost = async (req, res) => {
 
   try {
   } catch (error) {
+    console.error(error);
     res.status(500).json({
       success: false,
       message: "An error occured while updating post",
@@ -162,8 +159,7 @@ const updatePost = async (req, res) => {
 
 module.exports = {
   createPost,
-  getPost,
-  getAllPosts,
+  getPosts,
   deletePost,
   updatePost,
 };
