@@ -142,9 +142,50 @@ const deleteComment = async (req, res) => {
   }
 };
 
+const likeComment = async (req, res) => {
+  try {
+    const { commentId } = req.params;
+
+    const comment = await Comment.findById(commentId);
+
+    if (!comment) {
+      return res.status(404).json({
+        success: false,
+        message: "Comment not found",
+      });
+    }
+
+    const userId = req.user.id;
+    const userIndex = comment.likes.indexOf(userId);
+
+    if (userIndex === -1) {
+      comment.numberOfLikes += 1;
+      comment.likes.push(userId);
+    } else {
+      comment.numberOfLikes -= 1;
+      comment.likes.splice(userIndex, 1);
+    }
+
+    await comment.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Like status of the comment has been updated",
+      comment,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "An error occured while liking a comment",
+      error: error,
+    });
+  }
+};
+
 module.exports = {
   createComment,
   getComments,
   deleteComment,
   editComment,
+  likeComment,
 };
