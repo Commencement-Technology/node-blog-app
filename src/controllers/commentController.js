@@ -34,6 +34,50 @@ const createComment = async (req, res) => {
   }
 };
 
+const editComment = async (req, res) => {
+  try {
+    const { commentId } = req.params;
+    const { content } = req.body;
+
+    const comment = await Comment.findById(commentId);
+
+    if (!comment) {
+      return res.status(404).json({
+        success: false,
+        message: "Comment not found",
+      });
+    }
+
+    if (commentId !== comment.userId) {
+      return res.status(403).json({
+        success: false,
+        message: "You are not allowed to update this comment",
+      });
+    }
+
+    const updatedComment = await Comment.findByIdAndUpdate(
+      commentId,
+      {
+        content,
+      },
+      { new: true }
+    );
+
+    res.status(200).json({
+      success: true,
+      message: "Comment updated successfully!",
+      updatedComment,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "An error occured while updating comment",
+      error,
+    });
+  }
+};
+
 const getComments = async (req, res) => {
   try {
     const { postId } = req.params;
@@ -102,4 +146,5 @@ module.exports = {
   createComment,
   getComments,
   deleteComment,
+  editComment,
 };
