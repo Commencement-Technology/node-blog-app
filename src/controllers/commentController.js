@@ -84,11 +84,21 @@ const getComments = async (req, res) => {
 
     let comments, totalComments;
 
+    const startFrom = req.query.startFrom;
+    const limit = req.query.limit;
+    const sortDirection = req.query.sort === "asc" ? 1 : -1;
+
     if (!postId) {
-      comments = await Comment.find();
+      comments = await Comment.find()
+        .sort({ createdAt: sortDirection })
+        .limit(limit)
+        .skip(startFrom);
       totalComments = await Comment.countDocuments();
     } else {
-      comments = await Comment.find({ postId: postId }).sort({ createdAt: -1 });
+      comments = await Comment.find({ postId: postId })
+        .sort({ createdAt: sortDirection })
+        .limit(limit)
+        .skip(startFrom);
       totalComments = await Comment.countDocuments();
     }
 
