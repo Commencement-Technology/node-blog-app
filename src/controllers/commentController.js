@@ -159,10 +159,10 @@ const likeComment = async (req, res) => {
     const userIndex = comment.likes.indexOf(userId);
 
     if (userIndex === -1) {
-      comment.numberOfLikes += 1;
+      comment.likeCount += 1;
       comment.likes.push(userId);
     } else {
-      comment.numberOfLikes -= 1;
+      comment.likeCount -= 1;
       comment.likes.splice(userIndex, 1);
     }
 
