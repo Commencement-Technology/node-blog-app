@@ -8,5 +8,6 @@ app.use(express.json());
 app.use("/", require("./routes/authRoute"));
 app.use("/", require("./routes/userRoute"));
 app.use("/", require("./routes/postRoute"));
+app.use("/", require("./routes/commentRoute"));
 
 module.exports = app;

@@ -7,7 +7,6 @@ const {
   updatePost,
   getPosts,
 } = require("../controllers/postController");
-const verfiyAuth = require("../middlewares/verfiyAuth");
 
 router.post("/posts", verifyAuth, createPost);
 router.delete("/posts/:postId/:userId", verifyAuth, deletePost);
