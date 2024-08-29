@@ -20,17 +20,17 @@ const createPost = async (req, res) => {
   try {
     await newPost.save();
 
-    res.status(201).json({
+    return res.status(201).json({
       success: true,
       newPost,
       message: "Post created successfully!",
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: "An error occured while creating a post",
-      error,
+      error: error.message,
     });
   }
 };
@@ -59,7 +59,7 @@ const getPosts = async (req, res) => {
     const totalPosts = await Post.countDocuments();
     const totalPages = Math.ceil(totalPosts / limit);
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       totalPosts,
       totalPages,
@@ -67,9 +67,10 @@ const getPosts = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: "An error occured while getting posts",
+      error: error.message,
     });
   }
 };
@@ -93,66 +94,65 @@ const deletePost = async (req, res) => {
     }
 
     await Post.findByIdAndDelete(req.params.postId);
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: "The post has been deleted",
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: "An error occurred while getting a post",
-      error,
+      error: error.message,
     });
   }
 };
 
 const updatePost = async (req, res) => {
-  const { postId } = req.params;
-  const userId = req.user.id;
-
-  const post = await Post.findById(postId);
-
-  if (!post) {
-    res.status(404).json({
-      success: false,
-      message: "Post not found",
-    });
-  }
-
-  if (post.userId !== userId) {
-    res.status(403).json({
-      success: false,
-      message: "You are not allowed to update this post",
-    });
-  }
-
-  const updatedPost = await Post.findByIdAndUpdate(
-    postId,
-    {
-      $set: {
-        title: req.body.title,
-        content: req.body.content,
-        category: req.body.category,
-        image: req.body.image,
-      },
-    },
-    { new: true }
-  );
-
-  res.status(200).json({
-    success: true,
-    message: "Post updated successfully!",
-    updatedPost,
-  });
-
   try {
+    const { postId } = req.params;
+    const userId = req.user.id;
+
+    const post = await Post.findById(postId);
+
+    if (!post) {
+      return res.status(404).json({
+        success: false,
+        message: "Post not found",
+      });
+    }
+
+    if (post.userId !== userId) {
+      return res.status(403).json({
+        success: false,
+        message: "You are not allowed to update this post",
+      });
+    }
+
+    const updatedPost = await Post.findByIdAndUpdate(
+      postId,
+      {
+        $set: {
+          title: req.body.title,
+          content: req.body.content,
+          category: req.body.category,
+          image: req.body.image,
+        },
+      },
+      { new: true }
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: "Post updated successfully!",
+      updatedPost,
+    });
   } catch (error) {
     console.error(error);
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: "An error occured while updating post",
-      error,
+      error: error.message,
     });
   }
 };

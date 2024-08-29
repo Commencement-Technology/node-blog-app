@@ -38,10 +38,11 @@ const login = async (req, res) => {
       }
     );
   } catch (error) {
-    res.json({
+    console.log(error);
+    return res.json({
       success: false,
       message: "An error occured while logging in a user",
-      error,
+      error: error.message,
     });
   }
 };
@@ -77,12 +78,12 @@ const register = async (req, res) => {
         });
       }
     );
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
       success: false,
       message: "An error occured while registering a user",
-      err,
+      error: error.message,
     });
   }
 };

@@ -37,17 +37,17 @@ const updateUser = async (req, res) => {
       });
     }
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: "User updated successfully!",
       updatedUser,
     });
   } catch (error) {
     console.log(error);
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: "An error occured while updating a userr",
-      error,
+      error: error.message,
     });
   }
 };
@@ -75,7 +75,7 @@ const getUser = async (req, res) => {
       });
     }
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: "Getting user successfully!",
       user,
@@ -84,7 +84,7 @@ const getUser = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "An error occured while getting a user",
-      error,
+      error: error.message,
     });
   }
 };

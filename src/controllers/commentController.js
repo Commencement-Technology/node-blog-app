@@ -63,17 +63,17 @@ const editComment = async (req, res) => {
       { new: true }
     );
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: "Comment updated successfully!",
       updatedComment,
     });
   } catch (error) {
     console.log(error);
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: "An error occured while updating comment",
-      error,
+      error: error.message,
     });
   }
 };
@@ -92,17 +92,17 @@ const getComments = async (req, res) => {
       totalComments = await Comment.countDocuments();
     }
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       totalComments,
       comments,
     });
   } catch (error) {
     console.log(error);
-    res.json({
+    return res.json({
       success: false,
       message: "An error occured while getting all comments",
-      error,
+      error: error.message,
     });
   }
 };
@@ -114,30 +114,30 @@ const deleteComment = async (req, res) => {
     const comment = await Comment.findById(commentId);
 
     if (!comment) {
-      res.status(404).json({
+      return res.status(404).json({
         success: false,
         message: "Comment not found",
       });
     }
 
     if (comment.userId !== req.user.id) {
-      res.status(403).json({
+      return res.status(403).json({
         success: false,
         message: "You are not allowed to delete this comment",
       });
     }
 
     await Comment.findByIdAndDelete(commentId);
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: "Comment has been deleted",
     });
   } catch (error) {
     console.log(error);
-    res.json({
+    return res.json({
       success: false,
       message: "An error occured while deleting a comment",
-      error,
+      error: error.message,
     });
   }
 };
@@ -177,7 +177,7 @@ const likeComment = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "An error occured while liking a comment",
-      error: error,
+      error: error.message,
     });
   }
 };
