@@ -63,7 +63,43 @@ const getComments = async (req, res) => {
   }
 };
 
+const deleteComment = async (req, res) => {
+  try {
+    const { commentId } = req.params;
+
+    const comment = await Comment.findById(commentId);
+
+    if (!comment) {
+      res.status(404).json({
+        success: false,
+        message: "Comment not found",
+      });
+    }
+
+    if (comment.userId !== req.user.id) {
+      res.status(403).json({
+        success: false,
+        message: "You are not allowed to delete this comment",
+      });
+    }
+
+    await Comment.findByIdAndDelete(commentId);
+    res.status(200).json({
+      success: true,
+      message: "Comment has been deleted",
+    });
+  } catch (error) {
+    console.log(error);
+    res.json({
+      success: false,
+      message: "An error occured while deleting a comment",
+      error,
+    });
+  }
+};
+
 module.exports = {
   createComment,
   getComments,
+  deleteComment,
 };
