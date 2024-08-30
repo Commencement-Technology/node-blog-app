@@ -17,10 +17,11 @@ This project is a RESTful API for a Web Blog application built using Node.js. It
 - ***express-validator:*** Server side validation for input fields
 - ***bcrypt:*** Library for hashing passwords.
 - ***JSON Web Tokens (JWT):*** Standard for creating secure access tokens.
-<!-- - ***jest:*** Testing framework for JavaScript, used to write and run unit tests. 
-- ***supertest:*** Library for testing HTTP endpoints in Node.js applications. -->
 - ***swagger-ui-express:*** Middleware to serve auto-generated Swagger API documentation in Express.js applications.
 - ***swagger-jsdoc:*** Library to generate Swagger API documentation from JSDoc comments in your code.
+<!-- - ***jest:*** Testing framework for JavaScript, used to write and run unit tests. 
+- ***supertest:*** Library for testing HTTP endpoints in Node.js applications. -->
+
 
 
  ## Installation
