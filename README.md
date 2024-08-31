@@ -28,7 +28,7 @@ This project is a RESTful API for a Web Blog application built using Node.js. It
   1. Clone the repository
   
   ```bash
-    git clone https://github.com/carpodok/node-blog-app
+    git clone https://github.com/carpodok/node-blog-app.git
   ```
   
   2. Navigate to the project directory:
