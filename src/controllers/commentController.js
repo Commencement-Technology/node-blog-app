@@ -1,7 +1,16 @@
 const Comment = require("../models/Comment");
+const { validatonResult } = require("express-validator");
 
 const createComment = async (req, res) => {
   try {
+    const validationErrors = validatonResult(req);
+    if (!validationErrors.isEmpty()) {
+      return res.status(400).json({
+        success: false,
+        error: validationErrors.array(),
+      });
+    }
+
     const { content, postId, userId } = req.body;
 
     if (userId !== req.user.id) {
@@ -36,6 +45,14 @@ const createComment = async (req, res) => {
 
 const editComment = async (req, res) => {
   try {
+    const validationErrors = validatonResult(req);
+    if (!validationErrors.isEmpty()) {
+      return res.status(400).json({
+        success: false,
+        error: validationErrors.array(),
+      });
+    }
+
     const { commentId } = req.params;
     const { content } = req.body;
 
@@ -80,6 +97,14 @@ const editComment = async (req, res) => {
 
 const getComments = async (req, res) => {
   try {
+    const validationErrors = validatonResult(req);
+    if (!validationErrors.isEmpty()) {
+      return res.status(400).json({
+        success: false,
+        error: validationErrors.array(),
+      });
+    }
+
     const { postId } = req.params;
 
     let comments, totalComments;
@@ -119,6 +144,14 @@ const getComments = async (req, res) => {
 
 const deleteComment = async (req, res) => {
   try {
+    const validationErrors = validatonResult(req);
+    if (!validationErrors.isEmpty()) {
+      return res.status(400).json({
+        success: false,
+        error: validationErrors.array(),
+      });
+    }
+
     const { commentId } = req.params;
 
     const comment = await Comment.findById(commentId);
@@ -154,6 +187,14 @@ const deleteComment = async (req, res) => {
 
 const likeComment = async (req, res) => {
   try {
+    const validationErrors = validatonResult(req);
+    if (!validationErrors.isEmpty()) {
+      return res.status(400).json({
+        success: false,
+        error: validationErrors.array(),
+      });
+    }
+
     const { commentId } = req.params;
 
     const comment = await Comment.findById(commentId);
