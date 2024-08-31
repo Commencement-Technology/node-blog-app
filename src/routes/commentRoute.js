@@ -9,6 +9,14 @@ const {
   likeComment,
 } = require("../controllers/commentController");
 
+const {
+  validateCreateComment,
+  validateEditComment,
+  validateGetComments,
+  validateDeleteComment,
+  validateLikeComment,
+} = require("../middlewares/validators/commentValidator");
+
 /**
  * @openapi
  * '/comments':
@@ -42,7 +50,7 @@ const {
  *      500:
  *        description: Server error
  */
-router.post("/comments", verifyAuth, createComment);
+router.post("/comments", verifyAuth, validateCreateComment, createComment);
 
 /**
  * @openapi
@@ -63,7 +71,7 @@ router.post("/comments", verifyAuth, createComment);
  *      500:
  *        description: Server error
  */
-router.get("/comments/:postId", verifyAuth, getComments);
+router.get("/comments/:postId", verifyAuth, validateGetComments, getComments);
 
 /**
  * @openapi
@@ -100,7 +108,7 @@ router.get("/comments/:postId", verifyAuth, getComments);
  *      500:
  *        description: Server error
  */
-router.get("/comments", verifyAuth, getComments);
+router.get("/comments", verifyAuth, validateGetComments, getComments);
 
 /**
  * @openapi
@@ -127,7 +135,12 @@ router.get("/comments", verifyAuth, getComments);
  *      500:
  *        description: Server error
  */
-router.delete("/comments/:commentId", verifyAuth, deleteComment);
+router.delete(
+  "/comments/:commentId",
+  verifyAuth,
+  validateDeleteComment,
+  deleteComment
+);
 
 /**
  * @openapi
@@ -164,7 +177,12 @@ router.delete("/comments/:commentId", verifyAuth, deleteComment);
  *      500:
  *        description: Server error
  */
-router.put("/comments/:commentId", verifyAuth, editComment);
+router.put(
+  "/comments/:commentId",
+  validateEditComment,
+  verifyAuth,
+  editComment
+);
 
 /**
  * @openapi
@@ -189,6 +207,11 @@ router.put("/comments/:commentId", verifyAuth, editComment);
  *      500:
  *        description: Server error
  */
-router.put("/comments/like/:commentId", verifyAuth, likeComment);
+router.put(
+  "/comments/like/:commentId",
+  verifyAuth,
+  validateLikeComment,
+  likeComment
+);
 
 module.exports = router;

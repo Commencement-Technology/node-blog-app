@@ -100,6 +100,6 @@ router.delete("/users/:userId", verifyAuth, validateDeleteUser, deleteUser);
  *      500:
  *        description: Server error
  */
-router.put("/users/:userId", verifyAuth, validateGetUser, updateUser);
+router.put("/users/:userId", verifyAuth, validateUpdateUser, updateUser);
 
 module.exports = router;

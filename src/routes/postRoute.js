@@ -8,6 +8,13 @@ const {
   getPosts,
 } = require("../controllers/postController");
 
+const {
+  validateCreatePost,
+  validateGetPosts,
+  validateDeletePost,
+  validateUpdatePost,
+} = require("../middlewares/validators/postValidator");
+
 /**
  * @openapi
  * '/posts':
@@ -45,7 +52,7 @@ const {
  *      500:
  *        description: Server error
  */
-router.post("/posts", verifyAuth, createPost);
+router.post("/posts", verifyAuth, validateCreatePost, createPost);
 
 /**
  * @openapi
@@ -77,7 +84,12 @@ router.post("/posts", verifyAuth, createPost);
  *      500:
  *        description: Server error
  */
-router.delete("/posts/:postId/:userId", verifyAuth, deletePost);
+router.delete(
+  "/posts/:postId/:userId",
+  verifyAuth,
+  validateDeletePost,
+  deletePost
+);
 
 /**
  * @openapi
@@ -123,7 +135,7 @@ router.delete("/posts/:postId/:userId", verifyAuth, deletePost);
  *      500:
  *        description: Server error
  */
-router.put("/posts/:postId", verifyAuth, updatePost);
+router.put("/posts/:postId", verifyAuth, validateUpdatePost, updatePost);
 
 /**
  * @openapi
@@ -175,6 +187,6 @@ router.put("/posts/:postId", verifyAuth, updatePost);
  *      500:
  *        description: Server error
  */
-router.get("/posts", getPosts);
+router.get("/posts", validateGetPosts, getPosts);
 
 module.exports = router;

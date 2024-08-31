@@ -1,6 +1,15 @@
 const Post = require("../models/Post");
+const { validationResult } = require("express-validator");
 
 const createPost = async (req, res) => {
+  const validationErrors = validatonResult(req);
+  if (!validationErrors.isEmpty()) {
+    return res.status(400).json({
+      success: false,
+      error: validationErrors.array(),
+    });
+  }
+
   const userId = req.user.id;
   const { content, title, image, category } = req.body;
   const slug = title
@@ -37,6 +46,14 @@ const createPost = async (req, res) => {
 
 const getPosts = async (req, res) => {
   try {
+    const validationErrors = validationResult(req);
+    if (!validationErrors.isEmpty()) {
+      return res.status(400).json({
+        success: false,
+        error: validationErrors.array(),
+      });
+    }
+
     const startFrom = parseInt(req.query.startFrom) || 0;
     const limit = parseInt(req.query.limit) || 10;
     const sortDirection = req.query.sort === "asc" ? 1 : -1;
@@ -53,7 +70,7 @@ const getPosts = async (req, res) => {
       }),
     })
       .sort({ updatedAt: sortDirection })
-      .skip(startIndex)
+      .skip(startFrom)
       .limit(limit);
 
     const totalPosts = await Post.countDocuments();
@@ -76,6 +93,14 @@ const getPosts = async (req, res) => {
 };
 
 const deletePost = async (req, res) => {
+  const validationErrors = validationResult(req);
+  if (!validationErrors.isEmpty()) {
+    return res.status(400).json({
+      success: false,
+      error: validationErrors.array(),
+    });
+  }
+
   if (req.user.id !== req.params.userId) {
     return res.status(403).json({
       success: false,
@@ -110,6 +135,14 @@ const deletePost = async (req, res) => {
 
 const updatePost = async (req, res) => {
   try {
+    const validationErrors = validationResult(req);
+    if (!validationErrors.isEmpty()) {
+      return res.status(400).json({
+        success: false,
+        error: validationErrors.array(),
+      });
+    }
+
     const { postId } = req.params;
     const userId = req.user.id;
 
