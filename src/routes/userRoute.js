@@ -6,6 +6,12 @@ const {
   updateUser,
 } = require("../controllers/userController");
 const verifyAuth = require("../middlewares/verfiyAuth");
+
+const {
+  validateGetUser,
+  validateDeleteUser,
+  validateUpdateUser,
+} = require("../middlewares/validators/userValidator");
 /**
  * @openapi
  * '/users/{userId}':
@@ -27,7 +33,7 @@ const verifyAuth = require("../middlewares/verfiyAuth");
  *      500:
  *        description: Server error
  */
-router.get("/users/:userId", getUser);
+router.get("/users/:userId", validateGetUser, getUser);
 
 /**
  * @openapi
@@ -52,7 +58,7 @@ router.get("/users/:userId", getUser);
  *      500:
  *        description: Server error
  */
-router.delete("/users/:userId", verifyAuth, deleteUser);
+router.delete("/users/:userId", verifyAuth, validateDeleteUser, deleteUser);
 
 /**
  * @openapi
@@ -94,6 +100,6 @@ router.delete("/users/:userId", verifyAuth, deleteUser);
  *      500:
  *        description: Server error
  */
-router.put("/users/:userId", verifyAuth, updateUser);
+router.put("/users/:userId", verifyAuth, validateGetUser, updateUser);
 
 module.exports = router;

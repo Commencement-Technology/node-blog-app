@@ -1,7 +1,15 @@
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
+const { validationResult } = require("express-validator");
 
 const updateUser = async (req, res) => {
+  const validationErrors = validationResult(req);
+  if (!validationErrors.isEmpty()) {
+    return res.status(400).json({
+      success: false,
+      error: validationErrors.array(),
+    });
+  }
   if (req.user.id !== req.params.userId) {
     return res.status(403).json({
       success: false,
@@ -54,6 +62,14 @@ const updateUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   try {
+    const validationErrors = validationResult(req);
+    if (!validationErrors.isEmpty()) {
+      return res.status(400).json({
+        success: false,
+        error: validationErrors.array(),
+      });
+    }
+
     await User.findByIdAndDelete(req.params.userId);
     res.status(200).json("User has been deleted");
   } catch (error) {
@@ -67,6 +83,14 @@ const deleteUser = async (req, res) => {
 
 const getUser = async (req, res) => {
   try {
+    const validationErrors = validationResult(req);
+    if (!validationErrors.isEmpty()) {
+      return res.status(400).json({
+        success: false,
+        error: validationErrors.array(),
+      });
+    }
+
     const user = await User.findById(req.params.userId);
     if (!user) {
       return res.status(404).json({
