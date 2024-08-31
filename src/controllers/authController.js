@@ -1,9 +1,17 @@
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const { validationResult } = require("express-validator");
 
 const login = async (req, res) => {
   try {
+    const validationErrors = validationResult(req);
+    if (!validationErrors.isEmpty()) {
+      return res.status(400).json({
+        success: false,
+        error: validationErrors.array(),
+      });
+    }
     const { email, password } = req.body;
 
     let user = await User.findOne({ email });
@@ -49,6 +57,14 @@ const login = async (req, res) => {
 
 const register = async (req, res) => {
   try {
+    const validationErrors = validationResult(req);
+    if (!validationErrors.isEmpty()) {
+      return res.status(400).json({
+        success: false,
+        error: validationErrors.array(),
+      });
+    }
+
     const { username, email, password } = req.body;
 
     let user = await User.findOne({ email });

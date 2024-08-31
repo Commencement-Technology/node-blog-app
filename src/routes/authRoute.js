@@ -1,6 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const { login, register } = require("../controllers/authController");
+const {
+  validateLogin,
+  validateRegister,
+} = require("../middlewares/validators/authValidator");
 
 /**
  * @openapi
@@ -39,7 +43,7 @@ const { login, register } = require("../controllers/authController");
  *      500:
  *        description: Server Error
  */
-router.post("/login", login);
+router.post("/login", validateLogin, login);
 
 /**
  * @openapi
@@ -77,6 +81,6 @@ router.post("/login", login);
  *      500:
  *        description: Server Error
  */
-router.post("/register", register);
+router.post("/register", validateRegister, register);
 
 module.exports = router;
