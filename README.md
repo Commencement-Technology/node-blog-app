@@ -2,6 +2,11 @@
 
 This project is a RESTful API for a Web Blog application built using Node.js. It provides a set of endpoints to manage users, posts, and comments. The API supports essential blog functionalities such as user authentication, creating and managing posts, and interacting with comments. Below is an overview of the available endpoints and their functionalities.
 
+<!--
+https://www.postman.com/martian-meteor-939359/workspace/public-workspace/collection/18754010-ec536be0-b388-478e-baa5-b42ba97295b3?action=share&creator=18754010
+-->
+
+
 ## Endpoints
 <img width="750" alt="Screenshot 2024-08-31 at 00 08 18" src="https://github.com/user-attachments/assets/e29822e7-4cbf-4428-af04-cf84541f27f4">
 
