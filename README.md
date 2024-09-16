@@ -1,6 +1,6 @@
 # Web Blog API
 
-This project is a RESTful API for a Web Blog application built using Node.js. It provides a set of endpoints to manage users, posts, and comments. The API supports essential blog functionalities such as user authentication, creating and managing posts, and interacting with comments. Below is an overview of the available endpoints and their functionalities.
+This project is a RESTful API for a Web Blog application built using Node.js. It provides a set of endpoints to manage users, posts, and comments. The API supports essential blog functionalities such as user authentication, creating and managing posts, and interacting with comments. 
 
 <!--
 https://www.postman.com/martian-meteor-939359/workspace/public-workspace/collection/18754010-ec536be0-b388-478e-baa5-b42ba97295b3?action=share&creator=18754010
@@ -8,6 +8,7 @@ https://www.postman.com/martian-meteor-939359/workspace/public-workspace/collect
 
 
 ## Endpoints
+Below is an overview of the available endpoints and their functionalities.
 - ***To view the Swagger UI schema, navigate to `http://localhost:3000/api-docs` in your browser after running the server.***
 - ***You can test these endpoints via this [Postman](https://www.postman.com/martian-meteor-939359/workspace/alitalhacoban-public-workspace/collection/18754010-ec536be0-b388-478e-baa5-b42ba97295b3?action=share&creator=18754010) collection***
 
