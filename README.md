@@ -28,6 +28,7 @@ Below is an overview of the available endpoints and their functionalities.
 - ***JSON Web Tokens (JWT):*** Standard for creating secure access tokens.
 - ***swagger-ui-express:*** Middleware to serve auto-generated Swagger API documentation in Express.js applications.
 - ***swagger-jsdoc:*** Library to generate Swagger API documentation from JSDoc comments in your code.
+- ***jest:*** Comprehensive testing of API endpoints using jest for unit tests and supertest for testing HTTP requests, ensuring reliable and consistent API functionality.
 <!-- - ***jest:*** Testing framework for JavaScript, used to write and run unit tests. 
 - ***supertest:*** Library for testing HTTP endpoints in Node.js applications. -->
 
