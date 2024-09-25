@@ -1,9 +1,9 @@
 const Comment = require("../models/Comment");
-const { validatonResult } = require("express-validator");
+const { validationResult } = require("express-validator");
 
 const createComment = async (req, res) => {
   try {
-    const validationErrors = validatonResult(req);
+    const validationErrors = validationResult(req);
     if (!validationErrors.isEmpty()) {
       return res.status(400).json({
         success: false,
@@ -14,7 +14,7 @@ const createComment = async (req, res) => {
     const { content, postId, userId } = req.body;
 
     if (userId !== req.user.id) {
-      res.status(403).json({
+      return res.status(403).json({
         success: false,
         message: "You are not allowed to create this comment",
       });
@@ -34,18 +34,19 @@ const createComment = async (req, res) => {
       comment,
     });
   } catch (error) {
-    console.log(error);
+    console.log(`req user: ${req.user}`);
+    console.log(`req user: ${req.body}`);
     res.status(500).json({
       success: false,
       message: "An error occured while creating a comment",
-      error,
+      error: error.message,
     });
   }
 };
 
 const editComment = async (req, res) => {
   try {
-    const validationErrors = validatonResult(req);
+    const validationErrors = validationResult(req);
     if (!validationErrors.isEmpty()) {
       return res.status(400).json({
         success: false,
@@ -65,7 +66,7 @@ const editComment = async (req, res) => {
       });
     }
 
-    if (commentId !== comment.userId) {
+    if (req.user.id !== comment.userId) {
       return res.status(403).json({
         success: false,
         message: "You are not allowed to update this comment",
@@ -86,7 +87,6 @@ const editComment = async (req, res) => {
       updatedComment,
     });
   } catch (error) {
-    console.log(error);
     return res.status(500).json({
       success: false,
       message: "An error occured while updating comment",
@@ -97,7 +97,7 @@ const editComment = async (req, res) => {
 
 const getComments = async (req, res) => {
   try {
-    const validationErrors = validatonResult(req);
+    const validationErrors = validationResult(req);
     if (!validationErrors.isEmpty()) {
       return res.status(400).json({
         success: false,
@@ -112,6 +112,8 @@ const getComments = async (req, res) => {
     const startFrom = req.query.startFrom;
     const limit = req.query.limit;
     const sortDirection = req.query.sort === "asc" ? 1 : -1;
+
+    console.log(postId);
 
     if (!postId) {
       comments = await Comment.find()
@@ -133,7 +135,6 @@ const getComments = async (req, res) => {
       comments,
     });
   } catch (error) {
-    console.log(error);
     return res.json({
       success: false,
       message: "An error occured while getting all comments",
@@ -144,7 +145,7 @@ const getComments = async (req, res) => {
 
 const deleteComment = async (req, res) => {
   try {
-    const validationErrors = validatonResult(req);
+    const validationErrors = validationResult(req);
     if (!validationErrors.isEmpty()) {
       return res.status(400).json({
         success: false,
@@ -176,7 +177,6 @@ const deleteComment = async (req, res) => {
       message: "Comment has been deleted",
     });
   } catch (error) {
-    console.log(error);
     return res.json({
       success: false,
       message: "An error occured while deleting a comment",
@@ -187,7 +187,7 @@ const deleteComment = async (req, res) => {
 
 const likeComment = async (req, res) => {
   try {
-    const validationErrors = validatonResult(req);
+    const validationErrors = validationResult(req);
     if (!validationErrors.isEmpty()) {
       return res.status(400).json({
         success: false,

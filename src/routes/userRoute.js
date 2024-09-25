@@ -5,7 +5,7 @@ const {
   deleteUser,
   updateUser,
 } = require("../controllers/userController");
-const verifyAuth = require("../middlewares/verfiyAuth");
+const verifyAuth = require("../middlewares/verifyAuth");
 
 const {
   validateGetUser,

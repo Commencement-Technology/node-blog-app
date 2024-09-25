@@ -1,5 +1,5 @@
 const express = require("express");
-const verifyAuth = require("../middlewares/verfiyAuth");
+const verifyAuth = require("../middlewares/verifyAuth");
 const router = express.Router();
 const {
   createComment,
@@ -13,8 +13,6 @@ const {
   validateCreateComment,
   validateEditComment,
   validateGetComments,
-  validateDeleteComment,
-  validateLikeComment,
 } = require("../middlewares/validators/commentValidator");
 
 /**
@@ -135,12 +133,7 @@ router.get("/comments", verifyAuth, validateGetComments, getComments);
  *      500:
  *        description: Server error
  */
-router.delete(
-  "/comments/:commentId",
-  verifyAuth,
-  validateDeleteComment,
-  deleteComment
-);
+router.delete("/comments/:commentId", verifyAuth, deleteComment);
 
 /**
  * @openapi
@@ -207,11 +200,6 @@ router.put(
  *      500:
  *        description: Server error
  */
-router.put(
-  "/comments/like/:commentId",
-  verifyAuth,
-  validateLikeComment,
-  likeComment
-);
+router.put("/comments/like/:commentId", verifyAuth, likeComment);
 
 module.exports = router;

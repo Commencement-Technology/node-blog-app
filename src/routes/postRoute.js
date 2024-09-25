@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const verifyAuth = require("../middlewares/verfiyAuth");
+const verifyAuth = require("../middlewares/verifyAuth");
 const {
   createPost,
   deletePost,
