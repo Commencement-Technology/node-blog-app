@@ -11,7 +11,6 @@ const {
 const {
   validateCreatePost,
   validateGetPosts,
-  validateDeletePost,
   validateUpdatePost,
 } = require("../middlewares/validators/postValidator");
 
@@ -84,12 +83,7 @@ router.post("/posts", verifyAuth, validateCreatePost, createPost);
  *      500:
  *        description: Server error
  */
-router.delete(
-  "/posts/:postId/:userId",
-  verifyAuth,
-  validateDeletePost,
-  deletePost
-);
+router.delete("/posts/:postId/:userId", verifyAuth, deletePost);
 
 /**
  * @openapi

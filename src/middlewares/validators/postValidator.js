@@ -20,26 +20,18 @@ const validateGetPosts = [
     .optional()
     .isIn(["asc", "desc"])
     .withMessage("Sort should be either 'asc' or 'desc'"),
-  query("userId").optional().isMongoId().withMessage("Invalid user ID"),
   query("category")
     .optional()
     .notEmpty()
     .withMessage("Category cannot be empty"),
   query("slug").optional().notEmpty().withMessage("Slug cannot be empty"),
-  query("postId").optional().isMongoId().withMessage("Invalid post ID"),
   query("searchTerm")
     .optional()
     .isString()
     .withMessage("Search term must be a string"),
 ];
 
-const validateDeletePost = [
-  param("postId").isMongoId().withMessage("Invalid post ID"),
-  param("userId").isMongoId().withMessage("Invalid user ID"),
-];
-
 const validateUpdatePost = [
-  param("postId").isMongoId().withMessage("Invalid post ID"),
   body("title").optional().notEmpty().withMessage("Title cannot be empty"),
   body("content").optional().notEmpty().withMessage("Content cannot be empty"),
   body("category")
@@ -52,6 +44,5 @@ const validateUpdatePost = [
 module.exports = {
   validateCreatePost,
   validateGetPosts,
-  validateDeletePost,
   validateUpdatePost,
 };

@@ -1,5 +1,5 @@
 const request = require("supertest");
-const app = require("../src/app"); // Your Express app, assuming it's exported from app.js
+const app = require("../src/app");
 const Comment = require("../src/models/Comment");
 const jwt = require("jsonwebtoken");
 

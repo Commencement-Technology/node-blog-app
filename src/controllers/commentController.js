@@ -34,8 +34,7 @@ const createComment = async (req, res) => {
       comment,
     });
   } catch (error) {
-    console.log(`req user: ${req.user}`);
-    console.log(`req user: ${req.body}`);
+    console.log(error);
     res.status(500).json({
       success: false,
       message: "An error occured while creating a comment",
@@ -112,8 +111,6 @@ const getComments = async (req, res) => {
     const startFrom = req.query.startFrom;
     const limit = req.query.limit;
     const sortDirection = req.query.sort === "asc" ? 1 : -1;
-
-    console.log(postId);
 
     if (!postId) {
       comments = await Comment.find()

@@ -2,7 +2,7 @@ const Post = require("../models/Post");
 const { validationResult } = require("express-validator");
 
 const createPost = async (req, res) => {
-  const validationErrors = validatonResult(req);
+  const validationErrors = validationResult(req);
   if (!validationErrors.isEmpty()) {
     return res.status(400).json({
       success: false,
@@ -10,8 +10,15 @@ const createPost = async (req, res) => {
     });
   }
 
-  const userId = req.user.id;
-  const { content, title, image, category } = req.body;
+  const { content, title, image, category, userId } = req.body;
+
+  if (userId !== req.user.id) {
+    return res.status(403).json({
+      success: false,
+      message: "You are not allowed to create this post",
+    });
+  }
+
   const slug = title
     .split(" ")
     .join("-")
