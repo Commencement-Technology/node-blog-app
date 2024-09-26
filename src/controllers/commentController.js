@@ -30,7 +30,7 @@ const createComment = async (req, res) => {
 
     res.status(201).json({
       success: true,
-      message: "Comment created successfully!",
+      message: "Comment created successfully",
       comment,
     });
   } catch (error) {
@@ -82,7 +82,7 @@ const editComment = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "Comment updated successfully!",
+      message: "Comment updated successfully",
       updatedComment,
     });
   } catch (error) {

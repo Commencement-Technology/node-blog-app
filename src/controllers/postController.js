@@ -39,7 +39,7 @@ const createPost = async (req, res) => {
     return res.status(201).json({
       success: true,
       newPost,
-      message: "Post created successfully!",
+      message: "Post created successfully",
     });
   } catch (error) {
     console.error(error);
@@ -184,7 +184,7 @@ const updatePost = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "Post updated successfully!",
+      message: "Post updated successfully",
       updatedPost,
     });
   } catch (error) {

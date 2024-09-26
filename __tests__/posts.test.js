@@ -62,7 +62,7 @@ describe("Posts API", () => {
 
       expect(res.statusCode).toEqual(201);
       expect(res.body).toHaveProperty("success", true);
-      expect(res.body).toHaveProperty("message", "Post created successfully!");
+      expect(res.body).toHaveProperty("message", "Post created successfully");
     });
   });
 
@@ -122,7 +122,7 @@ describe("Posts API", () => {
 
       expect(res.statusCode).toEqual(200);
       expect(res.body).toHaveProperty("success", true);
-      expect(res.body).toHaveProperty("message", "Post updated successfully!");
+      expect(res.body).toHaveProperty("message", "Post updated successfully");
     });
   });
 
