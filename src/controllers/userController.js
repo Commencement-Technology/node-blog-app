@@ -5,6 +5,7 @@ const { validationResult } = require("express-validator");
 const updateUser = async (req, res) => {
   const validationErrors = validationResult(req);
   if (!validationErrors.isEmpty()) {
+    console.log(validationErrors.array());
     return res.status(400).json({
       success: false,
       error: validationErrors.array(),
@@ -47,14 +48,14 @@ const updateUser = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "User updated successfully!",
+      message: "User updated successfully",
       updatedUser,
     });
   } catch (error) {
     console.log(error);
     return res.status(500).json({
       success: false,
-      message: "An error occured while updating a userr",
+      message: "An error occured while updating a user",
       error: error.message,
     });
   }
@@ -70,12 +71,23 @@ const deleteUser = async (req, res) => {
       });
     }
 
-    await User.findByIdAndDelete(req.params.userId);
-    res.status(200).json("User has been deleted");
+    const user = await User.findByIdAndDelete(req.params.userId);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "User deleted successfully",
+    });
   } catch (error) {
     return res.status(500).json({
       success: false,
-      message: "An error occured while deleting a user",
+      message: "An error occurred while deleting the user",
       error,
     });
   }
@@ -101,7 +113,7 @@ const getUser = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "Getting user successfully!",
+      message: "Getting user successfully",
       user,
     });
   } catch (error) {

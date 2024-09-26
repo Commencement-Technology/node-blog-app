@@ -8,8 +8,6 @@ const {
 const verifyAuth = require("../middlewares/verifyAuth");
 
 const {
-  validateGetUser,
-  validateDeleteUser,
   validateUpdateUser,
 } = require("../middlewares/validators/userValidator");
 /**
@@ -33,7 +31,7 @@ const {
  *      500:
  *        description: Server error
  */
-router.get("/users/:userId", validateGetUser, getUser);
+router.get("/users/:userId", getUser);
 
 /**
  * @openapi
@@ -58,7 +56,7 @@ router.get("/users/:userId", validateGetUser, getUser);
  *      500:
  *        description: Server error
  */
-router.delete("/users/:userId", verifyAuth, validateDeleteUser, deleteUser);
+router.delete("/users/:userId", verifyAuth, deleteUser);
 
 /**
  * @openapi
