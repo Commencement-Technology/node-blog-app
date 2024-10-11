@@ -83,7 +83,18 @@ npm run dev
 
 <br>
 
+## Running the Application with Docker
+You can also run this application using Docker
 
+1. Ensure Docker and Docker Compose are installed. If not, follow the [official Docker installation guide](https://docs.docker.com/engine/install/).
+
+2. Build and run the applicaiton with Docker Compose:
+   ```bash
+   docker-compose up
+   ```
+    The application will be accessible at `http://localhost:3000`
+  
+3. ***Using a custom `.env` file:***  Ensure you have a `.env` file with the required environment variables (`PORT`, `MONGODB_URL`, `JWT_SECRET`), as it will be loaded automatically.
 
 ## Contributing
 Contributions are welcome! Please open an issue or submit a pull request for any improvements or suggestions.
